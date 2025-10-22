@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Care-HP</title>
+  <style>body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";padding:24px;}</style>
+</head>
+<body>
+  <h1>Care-HP デプロイ確認</h1>
+  <p>このページが見えたらVercelの静的公開は成功です。</p>
+</body>
+</html>
