@@ -4,28 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Care-HP</title>
-  <style>body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";padding:24px;}</style>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
+      padding: 24px;
+    }
+  </style>
 </head>
-  <!-- ボットを表示する場所 -->
-<div id="chatkit-root"></div>
-
-<!-- ChatKit 読み込み & 初期化 -->
-<script type="module">
-  // ChatKit の読み込み（Quickstartにある公式の import/初期化コードを使ってOK）
-  import ChatKit, { defaultTheme } from "https://cdn.jsdelivr.net/npm/@openai/chatkit/+esm";
-
-  const chat = new ChatKit({
-    workflowId: "wf_68f72ba1475c81908c27bd6be2f243210f82c6ec9e955414", // ← あなたの Workflow ID
-    version: "1",                           // ← 固定版を使うなら入れる（常に最新なら消してOK）
-    theme: defaultTheme,                    // 見た目は後で調整できます
-  });
-
-  // ここでページ内に描画
-  chat.mount(document.getElementById("chatkit-root"));
-</script>
-
 <body>
   <h1>Care-HP デプロイ確認</h1>
   <p>このページが見えたらVercelの静的公開は成功です。</p>
+
+  <!-- ボットを表示する場所 -->
+  <div id="chatkit-root"></div>
+
+  <!-- ChatKit 読み込み & 初期化 -->
+  <script type="module">
+    import ChatKit, { defaultTheme } from "https://cdn.jsdelivr.net/npm/@openai/chatkit/+esm";
+
+    const chat = new ChatKit({
+      workflowId: "wf_68f72ba1475c81908c27bd6be2f243210f82c6ec9e955414", // ← あなたの Workflow ID
+      version: "1", // ← 固定版を使うなら入れる（常に最新なら削除OK）
+      theme: defaultTheme,
+    });
+
+    // ページ内に描画
+    chat.mount(document.getElementById("chatkit-root"));
+  </script>
 </body>
 </html>
