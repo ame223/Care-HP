@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Care-HP</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue";
-      padding: 24px;
-    }
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue";padding:24px}
+    #chatkit-root{min-height:560px;border:1px solid #ddd;border-radius:12px;margin-top:16px;padding:8px}
   </style>
 </head>
 <body>
@@ -16,20 +14,35 @@
   <p>このページが見えたらVercelの静的公開は成功です。</p>
 
   <!-- ボットを表示する場所 -->
-  <div id="chatkit-root"></div>
+  <div id="chatkit-root">読み込み中...</div>
 
-  <!-- ChatKit 読み込み & 初期化 -->
+  <!-- ChatKit 読み込み & 初期化（安全なtry/catchつき） -->
   <script type="module">
-    import ChatKit, { defaultTheme } from "https://cdn.jsdelivr.net/npm/@openai/chatkit/+esm";
+    (async () => {
+      const root = document.getElementById('chatkit-root');
+      try {
+        // ① CDNから読み込み（jsDelivr）
+        const mod = await import('https://cdn.jsdelivr.net/npm/@openai/chatkit/+esm');
+        const ChatKit = mod.default;
+        const { defaultTheme } = mod;
 
-    const chat = new ChatKit({
-      workflowId: "wf_68f72ba1475c81908c27bd6be2f243210f82c6ec9e955414", // ← あなたの Workflow ID
-      version: "1", // ← 固定版を使うなら入れる（常に最新なら削除OK）
-      theme: defaultTheme,
-    });
+        // ② 初期化
+        const chat = new ChatKit({
+          workflowId: 'wf_68f72ba1475c81908c27bd6be2f243210f82c6ec9e955414', // ← あなたのWorkflow ID
+          version: '1',   // 固定版を使うならそのまま、常に最新ならこの行を削除
+          theme: defaultTheme,
+        });
 
-    // ページ内に描画
-    chat.mount(document.getElementById("chatkit-root"));
+        // ③ 描画
+        chat.mount(root);
+        console.log('[ChatKit] mounted');
+      } catch (e) {
+        console.error('[ChatKit] load error:', e);
+        root.innerText = 'ChatKitの読み込みでエラー: ' + (e?.message || e);
+        // 代替CDNでも試せるよう、下の1行のコメントを外して検証できます
+        // location.href = location.href + (location.search ? '&' : '?') + 'cdn=unpkg';
+      }
+    })();
   </script>
 </body>
 </html>
